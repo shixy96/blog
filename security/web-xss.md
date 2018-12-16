@@ -1,6 +1,6 @@
 # XSS
 
-* 感谢 [美团技术团队](https://tech.meituan.com/fe_security.html)，摘要记录于此，方便以后翻看回忆。
+* 感谢 [美团技术团队](https://tech.meituan.com/fe_security.html)，摘要记录于此，方便以后翻看回忆，仅用于个人学习记录。
 
 ## What
 [Cross-Site Scripting（跨站脚本攻击）简称 XSS](https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%B6%B2%E7%AB%99%E6%8C%87%E4%BB%A4%E7%A2%BC)，是一种代码注入攻击。攻击者通过在目标网站上注入恶意脚本，使之在用户的浏览器上运行。利用这些恶意脚本，攻击者可获取用户的敏感信息如 Cookie、SessionID 等，进而危害数据安全。
@@ -91,6 +91,7 @@ function login() {
 ## Prevention
 
 ### 输入过滤
+并不完全可靠。
 ### 防止 HTML 中出现注入。（存储、反射 -> 服务端取出恶意代码后，插入到响应 HTML 里）
 - 改成纯前端渲染，把代码和数据分隔开。
 - 对 HTML 做充分转义。
@@ -118,4 +119,4 @@ function login() {
 
  ...
 
- 如果想继续读小明同学的 xss 遭遇，请阅读原文 [前端安全系列（一）：如何防止XSS攻击？](https://tech.meituan.com/fe_security.html)，最后，再次感谢美团大佬。
+ 如果想研究详细内容，或者想继续读小明同学的 xss 遭遇，请阅读原文 [前端安全系列（一）：如何防止XSS攻击？](https://tech.meituan.com/fe_security.html)，最后，再次感谢美团大佬。

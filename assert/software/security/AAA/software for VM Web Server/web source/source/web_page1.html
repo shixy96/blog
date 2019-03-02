@@ -1,0 +1,49 @@
+﻿<html>
+
+    <head>
+        <title>
+            Test for AAA
+        </title>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <link rel="stylesheet" href="./aaa.css">
+        <script>
+            function gotoHome() {
+                location.assign('http://192.168.100.2/source/home.html');
+            }
+            function gotoAcsPage1() {
+                location.assign('http://192.168.100.1/source/acs_page1.html');
+            }
+            function gotoAcsPage2() {
+                location.assign('http://192.168.100.1/source/acs_page2.html');
+            }
+            function gotoWebPage1() {
+                location.assign('http://192.168.100.2/source/web_page1.html');
+            }
+            function gotoWebPage2() {
+                location.assign('http://192.168.100.2/source/web_page2.html');
+            }
+        </script>
+    </head>
+
+    <body>
+        <button onclick="gotoHome()">home</button>
+        <button onclick="gotoWebPage1()">web.page1</button>
+        <button onclick="gotoWebPage2() ">web.page2</button>
+        <button onclick="gotoAcsPage1()">acs.page1</button>
+        <button onclick="gotoAcsPage2()">acs.page2</button>
+	<h1>source from Web Server</h1>
+        <h2>AAA(Authentication, Authorization, Accounting)</h1>
+        <p>
+            验证(Authentication): 验证用户是否可以获得访问权限；<br>
+            授权(Authorization) : 授权用户可以使用哪些服务；<br>
+            记账(Accounting) : 记录用户使用网络资源的情况。
+        </p>
+        <h2>
+            description
+        </h2>
+        <p>
+            This is web.page1 which is from Web Server.
+        </p>
+    </body>
+
+</html>

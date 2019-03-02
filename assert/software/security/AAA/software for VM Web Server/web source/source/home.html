@@ -1,0 +1,47 @@
+﻿<html>
+
+    <head>
+        <title>
+            Test for AAA
+        </title>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <link rel="stylesheet" href="./aaa.css">
+        <script>
+            function gotoHome() {
+                location.assign('http://192.168.100.2/source/home.html');
+            }
+            function gotoAcsPage1() {
+                location.assign('http://192.168.100.1/source/acs_page1.html');
+            }
+            function gotoAcsPage2() {
+                location.assign('http://192.168.100.1/source/acs_page2.html');
+            }
+            function gotoWebPage1() {
+                location.assign('http://192.168.100.2/source/web_page1.html');
+            }
+            function gotoWebPage2() {
+                location.assign('http://192.168.100.2/source/web_page2.html');
+            }
+        </script>
+    </head>
+
+    <body>
+        <button onclick="gotoHome()">home</button>
+        <button onclick="gotoWebPage1()">web.page1</button>
+        <button onclick="gotoWebPage2() ">web.page2</button>
+        <button onclick="gotoAcsPage1()">acs.page1</button>
+        <button onclick="gotoAcsPage2()">acs.page2</button>
+        <h1>AAA(Authentication, Authorization, Accounting)</h1>
+        <h2>
+            description
+        </h2>
+        <p>
+            web.* 放在 Web Server 上，需要 ACS 服务器上 shixy-some 或 shixy-all 权限或者内网用户才能访问。<br>
+            acs.* 放在 ACS Server 上，需要 ACS 服务器上 shixy-all 权限或者内网用户才能访问。<br>
+            <br>其中，<br>
+            page1 在 IIS 上启用了匿名访问，即匿名用户也可以访问；<br>
+            page2 在 IIS 上启用了基于身份验证，需要相应 IIS 用户权限才能访问。
+        </p>
+    </body>
+
+</html>

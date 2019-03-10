@@ -31,22 +31,85 @@ AAA 一般采用客户／服务器结构，客户端运行于被管理的资源�
 
 设计的网络服务资源部署如下表。
 表1 网络服务资源部署
-|  | ACS Server | Web Server | IIS访问受限 |
-| :------   | :------: | :------: | :------: |
-| Home      |   | ☆ |
-| acs.page1 | ☆ |   |   |
-| acs.page2 | ☆ |   | ☆ |
-| web.page1 |   | ☆ |   |
-| web.page2 |   | ☆ | ☆ |
+<table>
+	<tr>
+		<th></th>
+		<th>ACS Server</th>
+		<th>Web Server</th>
+		<th>IIS访问受限</th>
+	</tr>
+	<tr>
+		<td>Home</td>
+		<td></td>
+		<td align="center">☆</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>acs.page1</td>
+		<td align="center">☆</td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>acs.page2</td>
+		<td align="center">☆</td>
+		<td></td>
+		<td align="center">☆</td>
+	</tr>
+	<tr>
+		<td>web.page1</td>
+		<td></td>
+		<td align="center">☆</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>web.page2</td>
+		<td></td>
+		<td align="center">☆</td>
+		<td align="center">☆</td>
+	</tr>
+</table>
 
 设计的不同级别用户的访问权限如下表。
-
 表2 不同级别用户的访问权限
-| | |Home | acs.page1 | acs.page2 | web.page1 | web.page2 |
-| :------: | :------: | :------: | :------: | :------: | :------: | :------: |
-| Wan用户 | shixy-some | ☆ | | | ☆ | IIS授权 |
-| Wan用户 | shixy-all | ☆ | ☆ | IIS授权 | ☆ | IIS授权 |
-| Lan用户 | | ☆ | ☆ | IIS授权 | ☆ |IIS授权 |
+<table>
+	<tr>
+		<th></th>
+		<th></th>
+		<th>Home</th>
+		<th>acs.page1</th>
+		<th>acs.page2</th>
+		<th>web.page1</th>
+		<th>web.page2</th>
+	</tr>
+	<tr>
+		<td>Wan用户</td>
+		<td>shixy-some</td>
+		<td align="center">☆</td>
+		<td align="center"></td>
+		<td align="center"></td>
+		<td align="center">☆</td>
+		<td align="center">IIS授权</td>
+	</tr>
+	<tr>
+		<td>Wan用户</td>
+		<td>shixy-all</td>
+		<td align="center">☆</td>
+		<td align="center">☆</td>
+		<td align="center">IIS授权</td>
+		<td align="center">☆</td>
+		<td align="center">IIS授权</td>
+	</tr>
+	<tr>
+		<td>Lan用户</td>
+		<td></td>
+		<td align="center">☆</td>
+		<td align="center">☆</td>
+		<td align="center">IIS授权</td>
+		<td align="center">☆</td>
+		<td align="center">IIS授权</td>
+	</tr>
+</table>
 
 ## Implementation(virtual machine)
 

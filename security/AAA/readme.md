@@ -1,6 +1,4 @@
-# 使用AAA确保网络安全访问
-
-记大学最后一次实验
+使用AAA确保网络安全访问
 
 ## Definition
 
@@ -122,7 +120,7 @@ AAA 一般采用客户／服务器结构，客户端运行于被管理的资源�
 1. ACS服务器（Windows server 2003）
 
 <div align="center">
-	<img src="../../assert/image/security/AAA/3-1-1.png">
+	<img src="../../assert/image/security/AAA/3-1-1.png" style="width:600px;height:600px">
 	<p>图 3-1-1  ACS 服务器虚拟机网络配置——仅主机模式</p>
 </div>
 <div align="center">
@@ -130,10 +128,11 @@ AAA 一般采用客户／服务器结构，客户端运行于被管理的资源�
 	<p>图 3-1-2  ACS 服务器ip地址配置</p>
 </div>
 
+
 2. Web Server服务器（Windows server 2003）
 
 <div align="center">
-	<img src="../../assert/image/security/AAA/3-1-3.png">
+	<img src="../../assert/image/security/AAA/3-1-3.png" style="width:600px;height:600px">
 	<p>图 3-1-3  Web 服务器虚拟机网络配置——仅主机模式</p>
 </div>
 <div align="center">
@@ -141,9 +140,10 @@ AAA 一般采用客户／服务器结构，客户端运行于被管理的资源�
 	<p>图 3-1-4  Web服务器ip地址配置</p>
 </div>
 
+
 3. 模拟wan环境中用户虚拟机（Windows XP）
 <div align="center">
-	<img src="../../assert/image/security/AAA/3-1-5.png">
+	<img src="../../assert/image/security/AAA/3-1-5.png" style="width:600px;height:600px">
 	<p>图 3-1-5 模拟wan环境中用户虚拟机配置——桥接物理无线网卡</p>
 </div>
 <div align="center">
@@ -151,13 +151,15 @@ AAA 一般采用客户／服务器结构，客户端运行于被管理的资源�
 	<p>图 3-1-6 模拟wan环境中用户ip地址配置</p>
 </div>
 
+
 #### internet resources
 
 1. 在Windows server 2003虚拟机上开启IIS服务。
 <div align="center">
-	<img src="../../assert/image/security/AAA/3-2-1.png">
+	<img src="../../assert/image/security/AAA/3-2-1.png" style="width:600px;height:500px">
 	<p>图 3-2-1 开启IIS服务</p>
 </div>
+
 
 2. 将写好的网站资源文件部署到默认网站下面。
 <div align="center">
@@ -366,7 +368,7 @@ AAA 一般采用客户／服务器结构，客户端运行于被管理的资源�
 	<img src="../../assert/image/security/AAA/3-6-5.png">
 	<p>图 3-6-5 vpn连接成功，本地连接ip地址改变</p>
 </div>
- 
+
 ### configuration code
 
 1. ASA防火墙接口配置
@@ -442,48 +444,50 @@ ciscoasa(config)# crypto map cisco interface outside
 
 1. shixy-some 的测试
 <div align="center">
-	<img src="../../assert/image/security/AAA/5-1.png">
+	<img src="../../assert/image/security/AAA/5-1.png" style="width:600px;height:400px">
 	<p>图 5-1  page home enable</p>
 </div>
 <div align="center">
-	<img src="../../assert/image/security/AAA/5-2.png">
+	<img src="../../assert/image/security/AAA/5-2.png" style="width:600px;height:400px">
 	<p>图 5-2  web.page1 enable</p>
 </div>
 <div align="center">
-	<img src="../../assert/image/security/AAA/5-3.png">
+	<img src="../../assert/image/security/AAA/5-3.png" style="width:600px;height:400px">
 	<p>图 5-3  web.page2 需要登陆有权限的AD用户</p>
 </div>
 <div align="center">
-	<img src="../../assert/image/security/AAA/5-4.png">
+	<img src="../../assert/image/security/AAA/5-4.png" style="width:600px;height:400px">
 	<p>图 5-4  web.page2 登陆错误连续3次之后显示未被授权</p>
 </div>
 <div align="center">
-	<img src="../../assert/image/security/AAA/5-5.png">
+	<img src="../../assert/image/security/AAA/5-5.png" style="width:600px;height:400px">
 	<p>图 5-5  web.page2 正确登陆显示网页</p>
 </div>
 <div align="center">
-	<img src="../../assert/image/security/AAA/5-6.png">
+	<img src="../../assert/image/security/AAA/5-6.png" style="width:600px;height:400px">
 	<p>图 5-6  acs.page1和acs.page2点击后打不开页面</p>
 </div>
+
 
 2. shixy-all 的测试
 home、web.page1、web.page2测试和shixy-some的测试一致。
 <div align="center">
-	<img src="../../assert/image/security/AAA/5-7.png">
+	<img src="../../assert/image/security/AAA/5-7.png" style="width:600px;height:400px">
 	<p>图 5-7  acs.page1 enable</p>
 </div>
 <div align="center">
-	<img src="../../assert/image/security/AAA/5-8.png">
+	<img src="../../assert/image/security/AAA/5-8.png" style="width:600px;height:400px">
 	<p>图 5-8  acs.page2 需要登陆有权限的AD用户</p>
 </div>
 <div align="center">
-	<img src="../../assert/image/security/AAA/5-9.png">
+	<img src="../../assert/image/security/AAA/5-9.png" style="width:600px;height:400px">
 	<p>图 5-9  acs.page2 登陆错误连续3次之后显示未被授权</p>
 </div>
 <div align="center">
-	<img src="../../assert/image/security/AAA/5-10.png">
+	<img src="../../assert/image/security/AAA/5-10.png" style="width:600px;height:400px">
 	<p>图 5-10  acs.page2 正确登陆显示网页</p>
 </div>
+
 
 3. LAN用户验证
 LAN用户telnet到ASA服务器（我是在物理主机修改VMNet1网络适配器Ipv4地址和Server同局域网，即192.168.100.*），输入指令test aaa-server authentication aaa host 192.168.100.1，输入用户名、密码进行验证。

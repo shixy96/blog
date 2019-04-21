@@ -119,4 +119,4 @@ function login() {
 
  ...
 
- 如果想研究详细内容，或者想继续读小明同学的 xss 遭遇，请阅读原文 [前端安全系列（一）：如何防止XSS攻击？](https://tech.meituan.com/fe_security.html)，最后，再次感谢美团大佬。
+ 如果想研究详细内容，或者想继续读小明同学的 xss 遭遇，请阅读原文 [前端安全系列（一）：如何防止XSS攻击？](https://tech.meituan.com/fe_security.html)。

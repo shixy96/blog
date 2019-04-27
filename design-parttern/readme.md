@@ -77,6 +77,10 @@
 
 抽象工厂模式提供一个接口，用于创建相关或依赖对象的家族，而不需要明确指定具体类。（组合）
 
+### Singleton
+
+单件模式确保一个类只有一个实例，并提供一个全局访问点。（java实现需要私有构造器，一个静态方法和一个静态变量，注意多线程影响和避免多个classloader）
+
 
 
 [Releated](<https://github.com/shixy96/utilityRoom/tree/master/DesignPattern>)

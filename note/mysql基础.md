@@ -335,3 +335,58 @@ WHERE Match(note_text) Against('>anvils +(<heavy) -rope*' IN BOOLEAN MODE);
 
 ### 插入数据
 
+```sql
+INSERT INTO customers(
+                      cust_name,
+                      cust_city)
+VALUES('a', 'shanghai')
+```
+
+insert select 
+
+```sql
+INSERT INTO customers(cust_id,
+                      cust_name,
+                      cust_city)
+SELECT cust_id,
+	cust_name,
+	cust_city
+FROM custnew;
+```
+
+​	为简单起见，这个例子在INSERT和SELECT语句中使用了相同的列名。但是，不一定要求列名匹配。事实上，MySQL甚至不关心SELECT返回的列名。它使用的是列的位置，因此SELECT中的第一列（不管其列名）将用来填充表列中指定的第一个列，第二列将用来填充表列中指定的第二个列，如此等等。这对于从使用不同列名的表中导入数据是非常有用的。
+
+### 更新数据
+
+#### UPDATE
+
+基本的UPDATE语句由3部分组成，分别是：
+
+❑ 要更新的表；
+
+❑ 列名和它们的新值；
+
+❑ 确定要更新行的过滤条件。
+
+```sql
+UPDATE customers
+SET cust_email = 'a@163.com',
+		cust_name = 'Fudds'
+WHERE cust_id = 1005;
+```
+
+​	即使是发生错误，也继续进行更新，可使用IGNORE关键字，如下所示：
+
+```sql
+UPDATE IGNORE customers…
+```
+
+#### DELETE
+
+```sql
+DELETE FROM customers WHERE cust_id = 1006;
+```
+
+​	如果想从表中删除所有行，不要使用DELETE。可使用TRUNCATE TABLE语句，它完成相同的工作，但速度更快（TRUNCATE实际是删除原来的表并重新创建一个表，而不是逐行删除表中的数据）。
+
+​	使用强制实施引用完整性的数据库(外键)，**这样MySQL将不允许删除具有与其他表相关联的数据的行**。

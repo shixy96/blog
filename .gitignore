@@ -8,3 +8,6 @@
 **/node_modules/**
 **/.vscode/**
 algo/leetcode/editor/**
+**/.DS_Store
+algo/leetcode/src/main/java/leetcode/editor/cn/all.json
+algo/leetcode/src/main/java/leetcode/editor/cn/translation.json

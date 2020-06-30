@@ -63,7 +63,7 @@ class Solution127 {
                     for (int i = 0; i < wordLength; i++) {
                         // Key is the generic word
                         // Value is a list of words which have the same intermediate generic word.
-                        String newWord = word.substring(0, i) + '*' + word.substring(i + 1, wordLength);
+                        String newWord = getCombo(word, i);
                         List<String> transformations = allComboDict.getOrDefault(newWord, new ArrayList<>());
                         transformations.add(word);
                         allComboDict.put(newWord, transformations);
@@ -71,21 +71,21 @@ class Solution127 {
                 });
 
         // Queue for BFS
-        Queue<Pair<String, Integer>> Q = new LinkedList<>();
-        Q.add(new Pair(beginWord, 1));
+        Queue<Pair<String, Integer>> queue = new LinkedList<>();
+        queue.add(new Pair<>(beginWord, 1));
 
         // Visited to make sure we don't repeat processing same word.
         Map<String, Boolean> visited = new HashMap<>();
         visited.put(beginWord, true);
 
-        while (!Q.isEmpty()) {
-            Pair<String, Integer> node = Q.remove();
+        while (!queue.isEmpty()) {
+            Pair<String, Integer> node = queue.remove();
             String word = node.getKey();
             int level = node.getValue();
             for (int i = 0; i < wordLength; i++) {
 
                 // Intermediate words for current word
-                String newWord = word.substring(0, i) + '*' + word.substring(i + 1, wordLength);
+                String newWord = getCombo(word, i);
 
                 // Next states are all the words which share the same intermediate state.
                 for (String adjacentWord : allComboDict.getOrDefault(newWord, new ArrayList<>())) {
@@ -97,13 +97,17 @@ class Solution127 {
                     // Otherwise, add it to the BFS Queue. Also mark it visited
                     if (!visited.containsKey(adjacentWord)) {
                         visited.put(adjacentWord, true);
-                        Q.add(new Pair(adjacentWord, level + 1));
+                        queue.add(new Pair<>(adjacentWord, level + 1));
                     }
                 }
             }
         }
 
         return 0;
+    }
+
+    private String getCombo(String word, int i) {
+        return word.substring(0, i) + '*' + word.substring(i + 1);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

@@ -390,3 +390,112 @@ DELETE FROM customers WHERE cust_id = 1006;
 ​	如果想从表中删除所有行，不要使用DELETE。可使用TRUNCATE TABLE语句，它完成相同的工作，但速度更快（TRUNCATE实际是删除原来的表并重新创建一个表，而不是逐行删除表中的数据）。
 
 ​	使用强制实施引用完整性的数据库(外键)，**这样MySQL将不允许删除具有与其他表相关联的数据的行**。
+
+### 视图
+
+​	视图是虚拟的表，与包含数据的表不一样，视图只包含使用时动态检索的查询。
+
+```sql
+SELECT cust_name, cust_contact
+FROM customers AS c, orders AS o, orderitems AS oi
+WHERE c.cust_id = o.cust_id
+	AND oi.order_num = o.order_num
+	AND prod_id = 'APPLE';
+```
+
+```sql
+// productcustomers 是视图
+SELECT cust_name, cust_contact
+FROM productcustomers
+WHERE prod_id = 'APPLE';
+```
+
+下面是视图的一些常见应用。
+
+❑ 重用SQL语句。
+
+❑ 简化复杂的SQL操作。在编写查询后，可以方便地重用它而不必知道它的基本查询细节。
+
+❑ 使用表的组成部分而不是整个表。
+
+❑ 保护数据。可以给用户授予表的特定部分的访问权限而不是整个表的访问权限。
+
+❑ 更改数据格式和表示。视图可返回与底层表的表示和格式不同的数据。
+
+> 因为视图不包含数据，所以每次使用视图时，都必须处理查询执行时所需的任一个检索。如果你用多个联结和过滤创建了复杂的视图或者嵌套了视图，可能会发现性能下降得很厉害。因此，在部署使用了大量视图的应用前，应该进行测试。
+
+#### 创建
+
+❑ 视图用CREATE VIEW语句来创建。
+
+❑ 使用SHOW CREATE VIEW viewname；来查看创建视图的语句。
+
+❑ 用DROP删除视图，其语法为DROP VIEW viewname;。
+
+❑ 更新视图时，可以先用DROP再用CREATE，也可以直接用CREATE OR REPLACEVIEW。如果要更新的视图不存在，则第2条更新语句会创建一个视图；如果要更新的视图存在，则第2条更新语句会替换原有视图。
+
+#### 使用
+
+##### 隐藏复杂的SQL
+
+视图的最常见的应用之一是隐藏复杂的SQL，这通常都会涉及联结。
+
+```sql
+CREATE VIEW productcustomers AS
+SELECT cust_name, cust_contact, prod_id
+FROM customers, orders, orderitems
+WHERE customers.cust_id = orders.cust_id
+	AND orderitems.order_num = orders.order_num;
+```
+
+```sql
+SELECT cust_name, cust_contact
+FROM productcustomers
+WHERE prod_id = 'APPLE';
+```
+
+创建不受特定数据限制的视图是一种好办法。
+
+##### 格式化检索出的数据
+
+```sql
+CREATE VIEW venderlocation AS
+SELECT Concat(RTrim(vender_name), '(', RTrim(vender_contry), ')') 
+				AS vend_title
+FROM venders
+ORDER BY vender_name;
+```
+
+##### 过滤不想要的数据
+
+```sql
+CREATE VIEW cu stomeremaillist AS
+SELECT cust_id, cust_name, cust_email
+FROM customers
+WHERE cust_email IS NOT NULL;
+```
+
+#### 更新
+
+​	通常，视图是可更新的（即，可以对它们使用INSERT、UPDATE和DELETE）。更新一个视图将更新其基表。如果你对视图增加或删除行，实际上是对其基表增加或删除行。
+
+​	但是，并非所有视图都是可更新的。基本上可以说，如果MySQL不能正确地确定被更新的基数据，则不允许更新（包括插入和删除）。这实际上意味着，如果视图定义中有以下操作，则不能进行视图的更新：
+
+❑ 分组（使用GROUP BY和HAVING）；
+
+❑ 联结；
+
+❑ 子查询；
+
+❑ 并；
+
+❑ 聚集函数（Min()、Count()、Sum()等）；
+
+❑ DISTINCT；
+
+❑ 导出（计算）列。
+
+**视图主要用于数据检**
+
+### 存储过程
+

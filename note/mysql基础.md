@@ -391,6 +391,83 @@ DELETE FROM customers WHERE cust_id = 1006;
 
 ​	使用强制实施引用完整性的数据库(外键)，**这样MySQL将不允许删除具有与其他表相关联的数据的行**。
 
+
+
+### 创建和操纵表
+
+表的创建、更改、删除
+
+#### 创建表
+
+至少包含名字和列的细节
+
+```sql
+CREATE TABLE customers IF NOT EXISTS
+(
+	cust_id int 						NOT NULL AUTO_INCREMENT,
+	cust_name char(50) 		NOT NULL,
+    cust_address char(50) NULL,
+    cust_level level 				NOT NULL DEFAULT 1,
+    PRIMARY KEY (cust_id)
+) ENGINE=innerDB;
+```
+
+​	IF NOT EXISTS 查看表名是否存在，并且仅在表名不存在时创建它。
+
+​	表中的每个行必须具有**唯一**的主键值。如果主键使用单个列，则它的值必须唯一。如果使用多个列，则这些列的组合值必须唯一。允许NULL值的列不能作为唯一标识。
+
+> PRIMARY KEY (order_num, order_item)
+
+​	AUTO_INCREMENT，本列每当增加一行时自动增量，**每个表只允许一个AUTO_INCREMENT列，而且它必须被索引**。在 insert 时指定值可以覆盖 AUTO_INCREMENT ，后续的增量将基于该值。
+
+```sql
+// 返回最后一个AUTO_INCREMENT值
+SELECT last_insert_id();
+```
+
+##### 引擎
+
+❑ InnoDB是一个可靠的事务处理引擎，它不支持全文本搜索；
+
+❑ MyISAM是一个性能极高的引擎，它支持全文本搜索，但不支持事务处理。
+
+❑ MEMORY在功能等同于MyISAM，但由于数据存储在内存（不是磁盘）中，速度很快（特别适合于临时表）；
+
+​	混用引擎类型有一个大缺陷。外键（用于强制实施引用完整性）不能跨引擎，即使用一个引擎的表不能引用具有使用不同引擎的表的外键。
+
+#### 更新表
+
+```sql
+ALTER TABLE venders
+ADD vender_phone CHAR(20);
+```
+
+```sql
+ALTER TABLE venders
+DROP COLUMN vender_phone;
+```
+
+```sql
+// 增加外键
+ALTER TABLE orderitems
+ADD CONSTRAINT fk_orderitems_orders 
+FOREIGN KEY (order_num) REFERENCES orders (order_num);
+```
+
+#### 删除表
+
+```sql
+DROP TABLE cumstomers;
+```
+
+#### 重命名表
+
+```sql
+RENAME TABLE cumstomers2 TO cumstomers;
+```
+
+
+
 ### 视图
 
 ​	视图是虚拟的表，与包含数据的表不一样，视图只包含使用时动态检索的查询。
@@ -497,5 +574,6 @@ WHERE cust_email IS NOT NULL;
 
 **视图主要用于数据检**
 
-### 存储过程
 
+
+### 存储过程

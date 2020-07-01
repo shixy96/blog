@@ -56,7 +56,7 @@ class Solution127 {
 
         // Dictionary to hold combination of words that can be formed,
         // from any given word. By changing one letter at a time.
-        Map<String, List<String>> allComboDict = new HashMap<>();
+        Map<String, List<String>> allComboDict = new HashMap<>(wordList.size() * wordLength * 4 / 3);
 
         wordList.forEach(
                 word -> {

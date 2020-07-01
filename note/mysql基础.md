@@ -572,8 +572,131 @@ WHERE cust_email IS NOT NULL;
 
 ❑ 导出（计算）列。
 
-**视图主要用于数据检**
+**视图主要用于数据检索**
 
 
 
 ### 存储过程
+
+存储过程简单来说，就是为以后的使用而保存的一条或多条MySQL语句的集合，简单、安全、高性能。
+
+❑ 通过把处理封装在容易使用的单元中，简化复杂的操作。
+
+❑ 由于不要求反复建立一系列处理步骤，这保证了数据的完整性。如果所有开发人员和应用程序都使用同一（试验和测试）存储过程，则所使用的代码都是相同的。这一点的延伸就是防止错误。需要执行的步骤越多，出错的可能性就越大。防止错误保证了数据的一致性。
+
+❑ 简化对变动的管理。如果表名、列名或业务逻辑（或别的内容）有变化，只需要更改存储过程的代码。使用它的人员甚至不需要知道这些变化。
+
+❑ 提高性能。因为使用存储过程比使用单独的SQL语句要快。
+
+❑ 存在一些只能用在单个请求中的MySQL元素和特性，存储过程可以使用它们来编写功能更强更灵活的代码
+
+#### 执行
+
+CALL接受存储过程的名字以及需要传递给它的任意参数。
+
+```sql
+CALL productpricing(
+	@pricelow,
+	@pricehigh,
+	@priceaverage
+)
+```
+
+#### 创建
+
+```sql
+CREATE PROCEDURE productpricing()
+BEGIN
+	SELECT Avg(prod_price) AS priceaverage
+	FROM products;
+END
+```
+
+​	此存储过程名为productpricing，用`CREATE PROCEDURE productpricing()`语句定义。如果存储过程接受参数，它们将在()中列举出来。此存储过程没有参数，但后跟的()仍然需要。BEGIN和END语句用来限定存储过程体，过程体本身仅是一个简单的SELECT语句。
+
+```sql
+DELIMITER //
+CREATE PROCEDURE productpricing()
+BEGIN
+	SELECT Avg(prod_price) AS priceaverage
+	FROM products;
+END //
+DELIMITER ;
+```
+
+​	其中，`DELIMITER //`告诉命令行实用程序使用//作为新的语句结束分隔符，可以看到标志存储过程结束的END定义为END//而不是END;。这样，存储过程体内的；仍然保持不动，并且正确地传递给数据库引擎。最后，为恢复为原来的语句分隔符，可使用DELIMITER ;。
+
+```sql
+CALL productpricing();
+```
+
+#### 删除
+
+```sql
+# 请注意没有使用后面的()，只给出存储过程名。
+DROP PROCEDURE IF EXISTS productpricing;
+```
+
+#### 使用参数
+
+​	MySQL支持IN（传递给存储过程）、OUT（从存储过程传出）和INOUT（对存储过程传入和传出）类型的参数。
+
+```sql
+CREATE PROCEDURE ordertotal(
+	IN 	onumber INT,
+	OUT total 	DECIMAL(8,2)
+)
+BEGIN
+	-- 注释SELECT
+	SELECT Sum(item*quantity) INTO total
+	FROM orderitems
+	WHERE order_num = onumber;
+END
+```
+
+​	存储过程的代码位于BEGIN和END语句内，如前所见，它们是一系列SELECT语句，用来检索值，然后保存到相应的变量（通过指定INTO关键字）。
+
+```sql
+CALL ordertotal(
+	20005,
+	@total
+);
+SELECT @total;
+```
+
+> 所有MySQL变量都必须以@开始。
+
+```sql
+CREATE PROCEDURE ordertotal(
+	IN 	onumber INT,
+	IN  taxable BOOLEAN,
+	OUT ototal 	DECIMAL(8,2)
+) COMMENT 'order total with tax'
+BEGIN
+	-- Declare
+	DECLARE total DECIMAL(8,2);
+	DECLARE taxrate INT DEFAULT 6;
+	
+	-- Select
+	SELECT Sum(item*quantity) INTO total
+	FROM orderitems
+	WHERE order_num = onumber;
+	
+	-- tax?
+	IF taxable THEN
+		SELECT total+(total/100*taxrate) INTO total;
+  ELSEIF .. THEN
+  	..
+  ELSE
+  	..
+  END IF;
+  
+  SELECT total INTO ototal;
+END
+```
+
+​	DECLARE要求指定变量名和数据类型，它也支持可选的默认值。
+
+​	COMMENT 值将在 `SHOW PROCEDURE STATUS LIKE '...'`（获取何时、由谁创造等具体信息） 的结果中显示。
+
+​	BOOLEAN值指定为非零值表示真，指定为0表示假。

@@ -700,3 +700,64 @@ END
 ​	COMMENT 值将在 `SHOW PROCEDURE STATUS LIKE '...'`（获取何时、由谁创造等具体信息） 的结果中显示。
 
 ​	BOOLEAN值指定为非零值表示真，指定为0表示假。
+
+
+
+### 游标
+
+游标（cursor）是一个存储在MySQL服务器上的数据库查询，它不是一条SELECT语句，而是被该语句检索出来的结果集。在存储了游标之后，应用程序可以根据需要滚动或浏览其中的数据。MySQL游标只能用于存储过程（和函数）
+
+使用游标涉及几个明确的步骤。
+
+❑ 在能够使用游标前，必须声明（定义）它。这个过程实际上没有检索数据，它只是定义要使用的SELECT语句。
+
+❑ 一旦声明后，必须打开游标以供使用。这个过程用前面定义的SELECT语句把数据实际检索出来。
+
+❑ 对于填有数据的游标，根据需要取出（检索）各行。
+
+❑ 在结束游标使用时，必须关闭游标。
+
+在声明游标后，可根据需要频繁地执行取操作、打开和关闭游标。
+
+在一个游标被打开后，可以使用`FETCH`语句分别访问它的每一行（自动从第一行开始）。`FETCH`指定检索什么数据（所需的列），检索出来的数据存储在什么地方。它还向前移动游标中的内部行指针，使下一条`FETCH`语句检索下一行（不重复读取同一行）。
+
+存储过程处理完成后，游标就消失（因为它局限于存储过程）。
+
+```sql
+CREATE PROCEDURE processorders()
+BEGIN
+	DECLARE done BOOLEAN DEFAULT 0; 
+	DECLARE o INT;
+	DECLARE t DECIMAL(8, 2);
+
+	-- 定义游标
+	DECLARE ordernumbers CURSOR
+	FOR
+	SELECT order_num FROM orders;
+	
+	-- 这条语句定义了一个CONTINUE HANDLER，它是在条件出现时被执行的代码。这里，它指出当SQLSTATE '02000’出现时，SET done=1。SQLSTATE '02000’是一个未找到条件，当REPEAT由于没有更多的行供循环而不能继续时，出现这个条件。
+	DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done=1;
+	
+	-- store table
+	CREATE TABLE IF NOT EXISTS ordertotals (order_num INT, total DECIMAL(8, 2));
+	
+	OPEN ordernumbers;
+	
+	REPEAT
+		FETCH ordernumbers INTO o;
+		-- get total into t
+		CALL ordertotals(o, 1, t);
+		INSERT INTO ordertotals(order_num, total) VALUES(o, t);
+		-- other ...
+	UNTIL done END REPEAT
+	
+	CLOSE ordernumbers;
+END
+```
+
+用DECLARE语句定义的局部变量必须在定义任意游标或句柄之前定义，而句柄必须在游标之后定义。
+
+
+
+### 触发器
+
